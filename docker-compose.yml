@@ -1,0 +1,40 @@
+version: '3.5'
+services:
+
+  api:
+    container_name: api
+    image: vovque/remote-server-manager:latest
+    volumes:
+      - ./env/:/app/env/
+    ports:
+      - "8000:8000"
+    restart: always
+    command: >
+      bash -c "alembic upgrade head && uvicorn app.main:app --host 0.0.0.0 --port 8000"
+    depends_on:
+      - db
+  db:
+    container_name: db
+    image: postgres:16.0-alpine
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    env_file:
+      - env/.env
+    restart: always
+    ports:
+      - "5432:5432"
+  frontend:
+    container_name: frontend
+    image: vovque/remote-server-manager-frontend:latest
+    volumes:
+      - ./env/:/app/env/
+    ports:
+      - "8080:8080"
+    restart: always
+    command: >
+      bash -c "flet run --web --port 8080 fletapp.py"
+    depends_on:
+      - api
+
+volumes:
+  postgres_data:

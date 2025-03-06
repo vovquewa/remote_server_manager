@@ -1,0 +1,23 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+      {
+        "name": "Python: FastAPI",
+        "type": "debugpy",
+        "request": "launch",
+        "program": "${workspaceFolder}/app/main.py",
+        "console": "integratedTerminal",
+        "args": [
+          "run",
+          "-m",
+          "--reload",
+          "--host=0.0.0.0",
+          "--port=8000"
+        ],
+        "env": {
+            "PYTHONPATH": "${workspaceFolder}"
+          },
+        "justMyCode": false,
+      }
+    ]
+  }
